@@ -16,16 +16,16 @@ forecast probability for that place.
 Calibration (backtested on three internal splits of the kit history,
 training on the first 20/24/28 reads and scoring the rest with the
 competition's log-score rule):
-  * the diffusion has to be wide (sigma0 0.55 ranks/hour) -- the chart
+  * the diffusion has to be wide (sigma0 0.9 ranks/hour) -- the chart
     churns fast, and over-confident persistence is punished hard;
   * probabilities are tempered (alpha 0.75) and only 75% of each place's
     mass is named, leaving 25% unnamed: brand-new games that were never
     on the chart keep entering the top 10, and the unnamed share is what
     prices them. Naming 99% of the mass scored far worse in backtest.
-  * backtest (mean over the three splits): this model -40.2 vs the house
+  * backtest (mean over the three splits): this model -39.8 vs the house
     baseline -49.2 on the same reads; on the split closest to the
-    practice window (10 reads, ~62 h) it scored -43.6 vs -56.9 baseline.
-    Verified again at the shipped 3,000 paths: -43.55 and -32.25 on the
+    practice window (10 reads, ~62 h) it scored -42.3 vs -56.9 baseline.
+    Verified again at the shipped 3,000 paths: -42.30 and -32.89 on the
     last two splits, vs baselines -56.91 and -37.71.
 
 Standard library only, no network, deterministic: a fixed seed, ties
@@ -40,7 +40,7 @@ from datetime import datetime
 # Tuned on internal backtests (see docstring); do not retune per run.
 PARAMS = {
     "n_paths": 3000,
-    "sigma0": 0.55,        # diffusion at rank 1, ranks/hour
+    "sigma0": 0.9,         # diffusion at rank 1, ranks/hour
     "sigma_rank": 0.012,   # extra diffusion per rank
     "drift_scale": 0.55,   # shrink on recent rank velocity
     "drift_halflife_h": 30.0,
